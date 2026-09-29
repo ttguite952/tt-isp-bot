@@ -14,7 +14,16 @@ application = Application.builder().token(BOT_TOKEN).build()
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("TT ISP Bot nung e!\nHman dan: /active ralte")
 
-async def active_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    data = request.get_json()
+    if data:
+        async def process():
+            update = Update.de_json(data, application.bot)
+            await application.initialize()
+            await application.process_update(update)
+        asyncio.run(process())
+    return "ok" def active_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args:
         await update.message.reply_text("Hman dan: /active ralte")
         return
