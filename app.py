@@ -8,7 +8,6 @@ BOT_TOKEN = os.environ.get("BOT_TOKEN")
 app = Flask(__name__)
 active_queue = []
 
-# Telegram Application
 application = Application.builder().token(BOT_TOKEN).build()
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -37,7 +36,6 @@ def get_commands():
     return jsonify({"commands": data})
 
 @app.route('/webhook', methods=['POST'])
-@app.route('/webhook', methods=['POST'])
 def webhook():
     data = request.get_json()
     if data:
@@ -46,12 +44,6 @@ def webhook():
             await application.initialize()
             await application.process_update(update)
         asyncio.run(process())
-    return "ok" def webhook():
-    data = request.get_json()
-    if data:
-        update = Update.de_json(data, application.bot)
-        await application.initialize()
-        await application.process_update(update)
     return "ok"
 
 @app.route('/set-webhook')
