@@ -37,7 +37,16 @@ def get_commands():
     return jsonify({"commands": data})
 
 @app.route('/webhook', methods=['POST'])
-async def webhook():
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    data = request.get_json()
+    if data:
+        async def process():
+            update = Update.de_json(data, application.bot)
+            await application.initialize()
+            await application.process_update(update)
+        asyncio.run(process())
+    return "ok" def webhook():
     data = request.get_json()
     if data:
         update = Update.de_json(data, application.bot)
